@@ -3032,7 +3032,7 @@ retry:
         if(cc->retry_count > cc->max_redirect_count)
         {
             __redisClusterSetError(cc, REDIS_ERR_CLUSTER_TOO_MANY_REDIRECT, 
-                "too many cluster redirect");
+                "too many cluster redirect-0");
             return NULL;
         }
 
@@ -3070,8 +3070,8 @@ ask_retry:
         cc->retry_count ++;
         if(cc->retry_count > cc->max_redirect_count)
         {
-            __redisClusterSetError(cc, REDIS_ERR_CLUSTER_TOO_MANY_REDIRECT, 
-                "too many cluster redirect");
+            __redisClusterSetError(cc, REDIS_ERR_CLUSTER_TOO_MANY_REDIRECT+error_type, 
+                "too many cluster redirect-1");
             freeReplyObject(reply);
             return NULL;
         }
@@ -4592,8 +4592,8 @@ static void redisClusterAsyncCallback(redisAsyncContext *ac, void *r, void *priv
         {
             cad->retry_count = 0;
             __redisClusterAsyncSetError(acc, 
-                REDIS_ERR_CLUSTER_TOO_MANY_REDIRECT, 
-                "too many cluster redirect");
+                REDIS_ERR_CLUSTER_TOO_MANY_REDIRECT+error_type, 
+                "too many cluster redirect-2");
             goto done;
         }
         
